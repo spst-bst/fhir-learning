@@ -24,7 +24,9 @@ def get_capability_statement(base_url: str = DEFAULT_BASE_URL) -> dict:
 
     TODO: GET {base_url}/metadata and return the parsed JSON body.
     """
-    raise NotImplementedError
+    resp = httpx.get(f"{base_url}/metadata")
+    resp.raise_for_status()
+    return resp.json()
 
 
 def count_resources(resource_type: str, base_url: str = DEFAULT_BASE_URL) -> int:
@@ -36,7 +38,9 @@ def count_resources(resource_type: str, base_url: str = DEFAULT_BASE_URL) -> int
 
     TODO: implement and return the integer total.
     """
-    raise NotImplementedError
+    resp = httpx.get(f"{base_url}/{resource_type}", params={"_summary": "count"})
+    resp.raise_for_status()
+    return resp.json()["total"]
 
 
 def get_patient_by_id(patient_id: str, base_url: str = DEFAULT_BASE_URL) -> dict:
@@ -46,7 +50,9 @@ def get_patient_by_id(patient_id: str, base_url: str = DEFAULT_BASE_URL) -> dict
 
     TODO: implement and return the parsed Patient resource (a dict).
     """
-    raise NotImplementedError
+    resp = httpx.get(f"{base_url}/Patient/{patient_id}")
+    resp.raise_for_status()
+    return resp.json()
 
 
 def search_patients_by_family_name(
@@ -61,7 +67,10 @@ def search_patients_by_family_name(
     TODO: implement and return a list of Patient resources (dicts). Return
     an empty list if there are no matches.
     """
-    raise NotImplementedError
+    resp = httpx.get(f"{base_url}/Patient", params={"family": family_name})
+    resp.raise_for_status()
+    bundle = resp.json()
+    return [entry["resource"] for entry in bundle.get("entry", [])]
 
 
 def get_conditions_for_patient(
@@ -76,4 +85,7 @@ def get_conditions_for_patient(
 
     TODO: implement and return a list of Condition resources (dicts).
     """
-    raise NotImplementedError
+    resp = httpx.get(f"{base_url}/Condition", params={"patient": patient_id})
+    resp.raise_for_status()
+    bundle = resp.json()
+    return [entry["resource"] for entry in bundle.get("entry", [])]
