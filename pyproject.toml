@@ -1,0 +1,34 @@
+[project]
+name = "fhir-learning"
+version = "0.1.0"
+description = "Hands-on FHIR / HL7 / healthcare interoperability course"
+requires-python = ">=3.12"
+dependencies = [
+    "fhir.resources>=7.1.0",
+    "httpx>=0.27.0",
+    "hl7>=0.4.5",
+    "fastapi>=0.115.0",
+    "uvicorn[standard]>=0.30.0",
+    "duckdb>=1.0.0",
+    "pydantic>=2.8.0",
+    "pyjwt[crypto]>=2.9.0",
+    "python-dotenv>=1.0.1",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3.0",
+    "pytest-httpx>=0.30.0",
+    "ruff>=0.6.0",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["modules"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["scripts"]
