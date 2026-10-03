@@ -26,7 +26,7 @@ In this module you'll start the server, load the synthetic patients, and
 write your first FHIR client calls with `httpx` — a capability statement
 check, a resource count, a fetch-by-id, and two searches.
 
-## Why it matters for a clinical-data startup
+## Why it matters in practice
 
 A cancer-risk model is only as good as the data pipeline feeding it. Before
 any modeling happens, someone has to reliably pull `Observation`,
@@ -37,7 +37,7 @@ source systems with inconsistent data quality. Knowing the base mechanics
 every later conversation about ingestion reliability, data contracts, and
 scale.
 
-## 3 Interview Talking Points
+## 3 Key Takeaways
 
 1. **"FHIR's REST + resource model is a contract, same as an internal
    microservice API."** Your GCP/distributed-systems background maps

@@ -62,7 +62,7 @@ own eyes.
    redirect dance once, since the code below starts one step later, at
    "I already have a signed assertion, now I trade it for a token."
 
-## Why it matters for a clinical-data startup
+## Why it matters in practice
 
 A nightly ingestion job (Module 5's `$export`, or a per-partner API pull)
 has no human sitting at a browser to grant consent each time — it has to
@@ -74,7 +74,7 @@ assertion's claims wrong (missing `jti`, an `exp` that's too long, a
 mismatched `aud`) is a common real-world integration failure mode when
 standing up a new partner feed.
 
-## 3 Interview Talking Points
+## 3 Key Takeaways
 
 1. **"EHR launch has context already; standalone launch has to ask for
    it; backend services has no user to ask at all."** Same OAuth2 core,

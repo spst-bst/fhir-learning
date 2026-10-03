@@ -39,7 +39,7 @@ text): the local HAPI server you've been running doesn't implement
 `$export`, and a real one takes minutes to finish by design, which would
 make for a bad exercise loop.
 
-## Why it matters for a clinical-data startup
+## Why it matters in practice
 
 A risk model that scores an existing population needs a **nightly or
 weekly bulk refresh**, not 50,000 individual polling loops — that's exactly
@@ -50,7 +50,7 @@ same resource landing twice must not double-count in a risk score, and a
 resource that *changed* between runs (corrected lab value, updated
 condition) must overwrite the old row, not create a duplicate alongside it.
 
-## 3 Interview Talking Points
+## 3 Key Takeaways
 
 1. **"$export is async because bulk jobs are slow — kickoff returns a poll
    URL, not data."** Any time an API hands back `202` + a `Content-Location`

@@ -38,7 +38,7 @@ You'll also **construct** a resource for the first time (a new
 `MedicationRequest`, in memory, not submitted) — the capstone needs you
 comfortable building FHIR resources, not just reading them.
 
-## Why it matters for a clinical-data startup
+## Why it matters in practice
 
 A risk model ingesting from multiple EHRs is going to see malformed,
 incomplete, or just-plain-wrong FHIR from partners constantly. Typed
@@ -48,7 +48,7 @@ incident you catch in a pipeline and one a clinician notices. And knowing
 `_include` exists is the difference between a per-patient chart pull making
 1 request or 40.
 
-## 3 Interview Talking Points
+## 3 Key Takeaways
 
 1. **"Typed parsing at the integration boundary turns silent data
    corruption into a loud, early failure."** Same principle as strict

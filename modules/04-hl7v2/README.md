@@ -7,9 +7,9 @@ move data internally today — ADT (admit/discharge/transfer) and ORU
 (observation result, i.e. lab results) messages flying over MLLP/TCP
 between the EHR, the lab system, and everything else on a hospital
 network. FHIR didn't replace it; it sits on top for external/API access
-while HL7 v2 keeps moving data inside the four walls. A clinical-data
-startup ingesting straight from a hospital, rather than through an EHR's
-FHIR API, is an HL7 v2 feed.
+while HL7 v2 keeps moving data inside the four walls. A system ingesting
+straight from a hospital, rather than through an EHR's FHIR API, is
+consuming an HL7 v2 feed.
 
 The format itself: pipe-delimited segments, each a 3-letter code (`MSH`
 header, `PID` patient, `OBR` order, `OBX` one result per segment), fields
@@ -28,7 +28,7 @@ This module parses both ADT and ORU messages, then maps ORU lab results
 into typed FHIR `Observation` resources — the same Pydantic models from
 Module 2, now built from HL7 instead of read from a FHIR server.
 
-## Why it matters for a clinical-data startup
+## Why it matters in practice
 
 The same lab result can arrive twice: a network blip triggers a resend, a
 message gets redelivered out of order from a queue, two feeds send the
@@ -40,7 +40,7 @@ code + timestamp) rather than from the message. Reprocessing the same
 result then produces the *same* id — an upsert overwrites instead of
 creating a duplicate Observation that would double-count in a risk score.
 
-## 3 Interview Talking Points
+## 3 Key Takeaways
 
 1. **"HL7 v2 didn't go away — FHIR is the external API, v2 still moves
    data inside the hospital."** Any integration that talks to a hospital

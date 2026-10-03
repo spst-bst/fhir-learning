@@ -26,7 +26,7 @@ billing, side by side. Knowing which system you're looking at, and that a
 `CodeableConcept` can hold more than one, matters for every mapping
 decision downstream.
 
-## Why it matters for a clinical-data startup
+## Why it matters in practice
 
 A risk model ingesting from multiple EHRs sees the same lab sent with
 inconsistent code formatting, values missing their unit, and the same
@@ -37,7 +37,7 @@ risk score. The fix is the same instinct as Module 2's typed parsing,
 applied earlier: normalize deliberately, fail loudly when you can't, and
 never guess when you'd rather raise.
 
-## 3 Interview Talking Points
+## 3 Key Takeaways
 
 1. **"The same clinical fact gets coded differently by system and by
    purpose — SNOMED CT for clinical modeling, ICD-10-CM for billing, same

@@ -1,8 +1,8 @@
 # Progress Checklist
 
 Tick these off as you go. Each module is "done" when `make test-0N` passes
-and you can explain the 3 interview talking points in that module's README
-without looking at them.
+and you can explain the 3 key takeaways in that module's README without
+looking at them.
 
 ## Module 1 — Setup
 - [ ] `make up` runs HAPI FHIR locally
@@ -46,4 +46,4 @@ without looking at them.
 - [ ] Can demo the capstone end-to-end and talk through trade-offs
 
 ## Wrap-up
-- [ ] `INTERVIEW_NOTES.md` filled in
+- [ ] `COURSE_NOTES.md` filled in

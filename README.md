@@ -1,10 +1,9 @@
 # FHIR / Healthcare Interoperability Course
 
-A hands-on, ~10–12 hour course to get from "no FHIR/HL7 experience" to
-"confident in a healthtech interview and comfortable with real code." Built
-for a senior engineering leader with a Java/GCP/distributed-systems/pharmacy
-integrations/HIPAA background, prepping for a Director/EM interview at a
-cancer-risk-modeling startup.
+A hands-on, ~10–12 hour course for learning FHIR, HL7 v2, and SMART on
+FHIR — from no prior experience to comfortable writing real code against
+resources, code systems, bulk data export, auth, and a capstone ingestion
+service.
 
 All data is synthetic (generated with [Synthea](https://github.com/synthetichealth/synthea)).
 **No real PHI anywhere in this repo.**
@@ -32,7 +31,7 @@ See [PROGRESS.md](PROGRESS.md) for the full checklist.
 ```
 modules/
   01-setup/
-    README.md       <- concepts (1 page), why it matters, interview talking points
+    README.md       <- concepts (1 page), why it matters, key takeaways
     exercises/       <- starter code with TODOs + failing pytest tests
     solutions/       <- reference solutions (don't peek until you've tried)
   02-fhir-resources/
@@ -60,4 +59,4 @@ make reset-data     # wipe and reload the synthetic patients from scratch
 ## Other docs
 
 - [PROGRESS.md](PROGRESS.md) — your checklist
-- [INTERVIEW_NOTES.md](INTERVIEW_NOTES.md) — one-page summary for the interview itself
+- [COURSE_NOTES.md](COURSE_NOTES.md) — one-page summary of what you built and the trade-offs you made

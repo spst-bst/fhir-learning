@@ -36,7 +36,7 @@ greps during an incident and a log a system can alert on, aggregate, or
 query (Datadog, CloudWatch Insights, BigQuery over log sinks — whatever
 your stack's equivalent is).
 
-## Why it matters for a clinical-data startup
+## Why it matters in practice
 
 This *is* the risk-model ingestion pipeline, in miniature: lab results
 come in (from a FHIR API or an HL7 feed), get normalized, get scored
@@ -47,7 +47,7 @@ When a regulator, an internal reviewer, or your own on-call engineer asks
 timeline is the answer. A `risk_score` column that just gets UPDATEd in
 place can't answer that question at all.
 
-## 3 Interview Talking Points
+## 3 Key Takeaways
 
 1. **"Two persistence policies, one pipeline: idempotent upsert for raw
    data, append-only versioning for derived/audited data."** Knowing
@@ -105,5 +105,5 @@ questions is already in this directory) covering: idempotency, the audit
 trail, PHI access controls, and model versioning. Writing it yourself
 *is* the exercise — it's the same document you'd be asked to produce (or
 defend in a design review) for this exact pipeline on the job, and
-articulating the trade-offs from scratch is better interview prep than
+articulating the trade-offs from scratch teaches you far more than
 reading a filled-in answer.

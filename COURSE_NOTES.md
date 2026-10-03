@@ -1,4 +1,4 @@
-# Interview Notes — Healthcare Interoperability
+# Course Notes — Healthcare Interoperability
 
 One page. What I built, the trade-offs I made, and how it maps to my
 pharmacy integration background. Fill in each section as you finish the
@@ -42,7 +42,7 @@ _(fill in after building this module)_
 ## Module 7 — Capstone
 _(fill in after building this module — this is the centerpiece of the demo)_
 
-## Trade-offs I'd call out unprompted
+## Trade-offs worth calling out
 
 - _(e.g., rule-based risk score vs. ML model — the point of the capstone is
   the data pipeline, not model sophistication)_
