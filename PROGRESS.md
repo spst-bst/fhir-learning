@@ -33,8 +33,8 @@ without looking at them.
 
 ## Module 6 — SMART on FHIR
 - [ ] Walked through standalone patient launch against the public SMART Health IT sandbox
-- [ ] `exercises/` TODOs filled in (backend-services JWT auth)
-- [ ] `make test-06` passes (scaffolded, 12 tests, all failing on NotImplementedError — your turn)
+- [x] `exercises/` TODOs filled in (backend-services JWT auth)
+- [x] `make test-06` passes
 - [ ] Can explain: standalone launch vs EHR launch vs backend services, scopes, signed JWT client auth
 
 ## Module 7 — Capstone
