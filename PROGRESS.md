@@ -28,7 +28,7 @@ without looking at them.
 
 ## Module 5 — Bulk FHIR
 - [ ] `exercises/` TODOs filled in ($export flow, NDJSON ingest into SQLite/DuckDB)
-- [ ] `make test-05` passes
+- [ ] `make test-05` passes (scaffolded, 12 tests, all failing on NotImplementedError — your turn)
 - [ ] Can explain: Bulk Data IG, async export + polling, NDJSON vs per-resource REST
 
 ## Module 6 — SMART on FHIR
