@@ -12,18 +12,18 @@ without looking at them.
 - [ ] Can explain: why FHIR servers exist (ONC Cures Act / API mandate), what Synthea is for
 
 ## Module 2 — FHIR Resources
-- [ ] `exercises/` TODOs filled in (Patient, Observation, Condition, DiagnosticReport, FamilyMemberHistory, MedicationRequest)
-- [ ] `make test-02` passes
+- [x] `exercises/` TODOs filled in (Patient, Observation, Condition, DiagnosticReport, FamilyMemberHistory, MedicationRequest)
+- [x] `make test-02` passes
 - [ ] Can explain: resources, references, search parameters, bundles
 
 ## Module 3 — Code Systems & Data Quality
-- [ ] `exercises/` TODOs filled in (LOINC normalization, missing units, duplicates)
-- [ ] `make test-03` passes
+- [x] `exercises/` TODOs filled in (LOINC normalization, missing units, duplicates)
+- [x] `make test-03` passes
 - [ ] Can explain: LOINC vs SNOMED CT vs ICD-10 vs RxNorm, why normalization matters for a risk model
 
 ## Module 4 — HL7 v2
-- [ ] `exercises/` TODOs filled in (ADT/ORU parsing, idempotent mapping to FHIR Observations)
-- [ ] `make test-04` passes
+- [x] `exercises/` TODOs filled in (ADT/ORU parsing, idempotent mapping to FHIR Observations)
+- [x] `make test-04` passes
 - [ ] Can explain: why HL7 v2 still exists, ADT vs ORU, idempotency with out-of-order messages
 
 ## Module 5 — Bulk FHIR

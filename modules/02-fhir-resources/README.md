@@ -76,3 +76,10 @@ Open `exercises/fhir_resources.py`, fill in the TODOs, then:
 ```bash
 make test-02
 ```
+
+Each request is dumped as JSON when `DEBUG = True` (the default) in
+`fhir_resources.py` — pytest hides it unless you pass `-s`:
+
+```bash
+uv run pytest modules/02-fhir-resources/exercises -v -s
+```

@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import json
+
 import httpx
 from fhir.resources.R4B.codeableconcept import CodeableConcept
 from fhir.resources.R4B.condition import Condition
@@ -15,10 +17,21 @@ from fhir.resources.R4B.reference import Reference
 
 DEFAULT_BASE_URL = "http://localhost:8080/fhir"
 
+# Set to False to quiet the request/response dump below.
+DEBUG = True
+
+
+def _debug_print(resp: httpx.Response) -> None:
+    if not DEBUG:
+        return
+    print(f"\n--- {resp.request.method} {resp.request.url} -> {resp.status_code} ---")
+    print(json.dumps(resp.json(), indent=2))
+
 
 def fetch_patient(patient_id: str, base_url: str = DEFAULT_BASE_URL) -> Patient:
     resp = httpx.get(f"{base_url}/Patient/{patient_id}")
     resp.raise_for_status()
+    _debug_print(resp)
     return Patient.model_validate(resp.json())
 
 
@@ -40,6 +53,7 @@ def fetch_observations(
         params["code"] = f"http://loinc.org|{loinc_code}"
     resp = httpx.get(f"{base_url}/Observation", params=params)
     resp.raise_for_status()
+    _debug_print(resp)
     bundle = resp.json()
     return [Observation.model_validate(e["resource"]) for e in bundle.get("entry", [])]
 
@@ -54,6 +68,7 @@ def latest_observation(observations: list[Observation]) -> Observation | None:
 def fetch_conditions(patient_id: str, base_url: str = DEFAULT_BASE_URL) -> list[Condition]:
     resp = httpx.get(f"{base_url}/Condition", params={"patient": patient_id, "_count": 100})
     resp.raise_for_status()
+    _debug_print(resp)
     bundle = resp.json()
     return [Condition.model_validate(e["resource"]) for e in bundle.get("entry", [])]
 
@@ -65,6 +80,7 @@ def fetch_family_history(
         f"{base_url}/FamilyMemberHistory", params={"patient": patient_id, "_count": 100}
     )
     resp.raise_for_status()
+    _debug_print(resp)
     bundle = resp.json()
     return [
         FamilyMemberHistory.model_validate(e["resource"]) for e in bundle.get("entry", [])
@@ -91,6 +107,7 @@ def fetch_diagnostic_reports_with_results(
     }
     resp = httpx.get(f"{base_url}/DiagnosticReport", params=params)
     resp.raise_for_status()
+    _debug_print(resp)
     bundle = resp.json()
 
     reports: list[DiagnosticReport] = []

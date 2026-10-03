@@ -9,6 +9,8 @@ Run the tests with:
 
 from __future__ import annotations
 
+import json
+
 import httpx
 from fhir.resources.R4B.codeableconcept import CodeableConcept
 from fhir.resources.R4B.condition import Condition
@@ -22,6 +24,16 @@ from fhir.resources.R4B.reference import Reference
 
 DEFAULT_BASE_URL = "http://localhost:8080/fhir"
 
+# Set to False to quiet the request/response dump below.
+DEBUG = True
+
+
+def _debug_print(resp: httpx.Response) -> None:
+    if not DEBUG:
+        return
+    print(f"\n--- {resp.request.method} {resp.request.url} -> {resp.status_code} ---")
+    print(json.dumps(resp.json(), indent=2))
+
 
 def fetch_patient(patient_id: str, base_url: str = DEFAULT_BASE_URL) -> Patient:
     """Fetch a Patient by id and parse it into a typed Patient model.
@@ -31,7 +43,10 @@ def fetch_patient(patient_id: str, base_url: str = DEFAULT_BASE_URL) -> Patient:
 
     TODO: implement.
     """
-    raise NotImplementedError
+    resp = httpx.get(f"{base_url}/Patient/{patient_id}")
+    resp.raise_for_status()
+    _debug_print(resp)
+    return Patient.model_validate(resp.json())
 
 
 def patient_display_name(patient: Patient) -> str:
@@ -47,7 +62,13 @@ def patient_display_name(patient: Patient) -> str:
 
     TODO: implement.
     """
-    raise NotImplementedError
+    names = patient.name or []
+    if not names:
+        return "(no name on file)"
+    name = next((n for n in names if n.use == "official"), names[0])
+    given = " ".join(name.given or [])
+    family = name.family or ""
+    return f"{given} {family}".strip()
 
 
 def fetch_observations(
@@ -62,7 +83,14 @@ def fetch_observations(
 
     TODO: implement. Return an empty list if there are no matches.
     """
-    raise NotImplementedError
+    params = {"patient": patient_id, "_count": 100}
+    if loinc_code:
+        params["code"] = f"http://loinc.org|{loinc_code}"
+    resp = httpx.get(f"{base_url}/Observation", params=params)
+    resp.raise_for_status()
+    _debug_print(resp)
+    bundle = resp.json()
+    return [Observation.model_validate(e["resource"]) for e in bundle.get("entry", [])]
 
 
 def latest_observation(observations: list[Observation]) -> Observation | None:
@@ -75,7 +103,10 @@ def latest_observation(observations: list[Observation]) -> Observation | None:
 
     TODO: implement.
     """
-    raise NotImplementedError
+    dated = [o for o in observations if o.effectiveDateTime is not None]
+    if not dated:
+        return None
+    return max(dated, key=lambda o: o.effectiveDateTime)
 
 
 def fetch_conditions(patient_id: str, base_url: str = DEFAULT_BASE_URL) -> list[Condition]:
@@ -83,7 +114,11 @@ def fetch_conditions(patient_id: str, base_url: str = DEFAULT_BASE_URL) -> list[
 
     TODO: implement, same pattern as fetch_observations but for Condition.
     """
-    raise NotImplementedError
+    resp = httpx.get(f"{base_url}/Condition", params={"patient": patient_id, "_count": 100})
+    resp.raise_for_status()
+    _debug_print(resp)
+    bundle = resp.json()
+    return [Condition.model_validate(e["resource"]) for e in bundle.get("entry", [])]
 
 
 def fetch_family_history(
@@ -93,7 +128,13 @@ def fetch_family_history(
 
     TODO: implement, same pattern as fetch_conditions.
     """
-    raise NotImplementedError
+    resp = httpx.get(
+        f"{base_url}/FamilyMemberHistory", params={"patient": patient_id, "_count": 100}
+    )
+    resp.raise_for_status()
+    _debug_print(resp)
+    bundle = resp.json()
+    return [FamilyMemberHistory.model_validate(e["resource"]) for e in bundle.get("entry", [])]
 
 
 def summarize_family_history(records: list[FamilyMemberHistory]) -> list[str]:
@@ -107,7 +148,12 @@ def summarize_family_history(records: list[FamilyMemberHistory]) -> list[str]:
 
     TODO: implement. Return one string per (record, condition) pair.
     """
-    raise NotImplementedError
+    summaries = []
+    for record in records:
+        relationship = record.relationship.coding[0].display
+        for condition in record.condition:
+            summaries.append(f"{relationship}: {condition.code.text}")
+    return summaries
 
 
 def fetch_diagnostic_reports_with_results(
@@ -126,7 +172,26 @@ def fetch_diagnostic_reports_with_results(
 
     TODO: implement. Return (diagnostic_reports, observations).
     """
-    raise NotImplementedError
+    params = {
+        "patient": patient_id,
+        "code": f"http://loinc.org|{loinc_code}",
+        "_include": "DiagnosticReport:result",
+        "_count": 100,
+    }
+    resp = httpx.get(f"{base_url}/DiagnosticReport", params=params)
+    resp.raise_for_status()
+    _debug_print(resp)
+    bundle = resp.json()
+
+    reports: list[DiagnosticReport] = []
+    observations: list[Observation] = []
+    for entry in bundle.get("entry", []):
+        resource = entry["resource"]
+        if resource["resourceType"] == "DiagnosticReport":
+            reports.append(DiagnosticReport.model_validate(resource))
+        elif resource["resourceType"] == "Observation":
+            observations.append(Observation.model_validate(resource))
+    return reports, observations
 
 
 def build_medication_request(
@@ -144,4 +209,10 @@ def build_medication_request(
 
     TODO: implement and return the MedicationRequest.
     """
-    raise NotImplementedError
+    return MedicationRequest(
+        status="active",
+        intent="order",
+        subject=Reference(reference=f"Patient/{patient_id}"),
+        medicationCodeableConcept=CodeableConcept(text=medication_text),
+        dosageInstruction=[Dosage(text=dosage_text)],
+    )
