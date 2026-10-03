@@ -41,8 +41,8 @@ without looking at them.
 - [ ] FastAPI service ingests lab results (FHIR or HL7), validates, normalizes
 - [ ] Versioned, auditable per-patient risk-signal timeline implemented
 - [ ] Tests passing, structured logging in place
-- [ ] `ARCHITECTURE.md` written (idempotency, audit trail, PHI access controls, model versioning)
-- [ ] `make test-07` passes
+- [ ] `ARCHITECTURE.md` written (template with guiding questions in place; content is yours to write)
+- [ ] `make test-07` passes (scaffolded, 14 tests across capstone.py + app.py, all failing on NotImplementedError — your turn)
 - [ ] Can demo the capstone end-to-end and talk through trade-offs
 
 ## Wrap-up
