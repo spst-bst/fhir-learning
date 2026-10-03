@@ -77,6 +77,13 @@ text, plus a local DuckDB connection for the ingest step. Open
 make test-05
 ```
 
+Each function dumps its inputs/outputs as JSON when `DEBUG = True` (the
+default) in `bulk_fhir.py` — pytest hides it unless you pass `-s`:
+
+```bash
+uv run pytest modules/05-bulk-fhir/exercises -v -s
+```
+
 Hints before answers — ask if you get stuck for more than ~10 minutes on
 any one function. Don't open `solutions/` until you've got a passing (or
 honestly-stuck) attempt.
