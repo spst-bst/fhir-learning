@@ -38,11 +38,11 @@ without looking at them.
 - [ ] Can explain: standalone launch vs EHR launch vs backend services, scopes, signed JWT client auth
 
 ## Module 7 — Capstone
-- [ ] FastAPI service ingests lab results (FHIR or HL7), validates, normalizes
-- [ ] Versioned, auditable per-patient risk-signal timeline implemented
-- [ ] Tests passing, structured logging in place
+- [x] FastAPI service ingests lab results (FHIR), validates, normalizes
+- [x] Versioned, auditable per-patient risk-signal timeline implemented
+- [x] Tests passing, structured logging in place
 - [ ] `ARCHITECTURE.md` written (template with guiding questions in place; content is yours to write)
-- [ ] `make test-07` passes (scaffolded, 14 tests across capstone.py + app.py, all failing on NotImplementedError — your turn)
+- [x] `make test-07` passes
 - [ ] Can demo the capstone end-to-end and talk through trade-offs
 
 ## Wrap-up

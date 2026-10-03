@@ -34,7 +34,7 @@ def ingest_fhir(observation: dict) -> dict:
 
     TODO: implement.
     """
-    raise NotImplementedError
+    return capstone.ingest_fhir_observation(app.state.db, observation, app.state.logger)
 
 
 @app.get("/patients/{patient_id}/risk-timeline")
@@ -46,4 +46,4 @@ def risk_timeline(patient_id: str) -> list[dict]:
 
     TODO: implement.
     """
-    raise NotImplementedError
+    return capstone.get_risk_timeline(app.state.db, patient_id)
