@@ -35,7 +35,7 @@ def parse_kickoff_response(headers: dict) -> str:
 
     TODO: implement.
     """
-    raise NotImplementedError
+    return headers["Content-Location"]
 
 
 def poll_export_status(status_code: int, body: dict | None) -> dict | None:
@@ -49,7 +49,11 @@ def poll_export_status(status_code: int, body: dict | None) -> dict | None:
 
     TODO: implement.
     """
-    raise NotImplementedError
+    if status_code == 202:
+        return None
+    if status_code == 200:
+        return body
+    raise RuntimeError(f"export job failed with status {status_code}")
 
 
 def extract_output_urls(manifest: dict, resource_type: str) -> list[str]:
@@ -63,7 +67,7 @@ def extract_output_urls(manifest: dict, resource_type: str) -> list[str]:
 
     TODO: implement.
     """
-    raise NotImplementedError
+    return [entry["url"] for entry in manifest.get("output", []) if entry["type"] == resource_type]
 
 
 def parse_ndjson(raw_text: str) -> list[dict]:
@@ -74,7 +78,7 @@ def parse_ndjson(raw_text: str) -> list[dict]:
 
     TODO: implement.
     """
-    raise NotImplementedError
+    return [json.loads(line) for line in raw_text.split("\n") if line.strip()]
 
 
 def build_typed_resources(raw_resources: list[dict]) -> list[Patient | Observation | Condition]:
@@ -87,7 +91,14 @@ def build_typed_resources(raw_resources: list[dict]) -> list[Patient | Observati
 
     TODO: implement.
     """
-    raise NotImplementedError
+    resources = []
+    for raw in raw_resources:
+        resource_type = raw["resourceType"]
+        model = RESOURCE_MODELS.get(resource_type)
+        if model is None:
+            raise ValueError(f"unsupported resourceType: {resource_type!r}")
+        resources.append(model.model_validate(raw))
+    return resources
 
 
 def ingest_resources(con: duckdb.DuckDBPyConnection, resources: list) -> int:
@@ -113,4 +124,23 @@ def ingest_resources(con: duckdb.DuckDBPyConnection, resources: list) -> int:
 
     TODO: implement.
     """
-    raise NotImplementedError
+    con.execute(
+        """
+        CREATE TABLE IF NOT EXISTS bulk_resources (
+            resource_type VARCHAR,
+            resource_id VARCHAR,
+            data_json VARCHAR
+        )
+        """
+    )
+    for resource in resources:
+        resource_type = resource.get_resource_type()
+        con.execute(
+            "DELETE FROM bulk_resources WHERE resource_type = ? AND resource_id = ?",
+            [resource_type, resource.id],
+        )
+        con.execute(
+            "INSERT INTO bulk_resources VALUES (?, ?, ?)",
+            [resource_type, resource.id, resource.model_dump_json()],
+        )
+    return len(resources)

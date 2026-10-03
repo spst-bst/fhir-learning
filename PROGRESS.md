@@ -27,8 +27,8 @@ without looking at them.
 - [ ] Can explain: why HL7 v2 still exists, ADT vs ORU, idempotency with out-of-order messages
 
 ## Module 5 — Bulk FHIR
-- [ ] `exercises/` TODOs filled in ($export flow, NDJSON ingest into SQLite/DuckDB)
-- [ ] `make test-05` passes (scaffolded, 12 tests, all failing on NotImplementedError — your turn)
+- [x] `exercises/` TODOs filled in ($export flow, NDJSON ingest into SQLite/DuckDB)
+- [x] `make test-05` passes
 - [ ] Can explain: Bulk Data IG, async export + polling, NDJSON vs per-resource REST
 
 ## Module 6 — SMART on FHIR
